@@ -2,7 +2,6 @@ import { databases } from "@/app/appwrite";
 import { ID, Query } from "appwrite";
 import { getLoggedInUser } from "../utils/server/appwrite";
 
-
 export async function addNote(content) {
   const user = await getLoggedInUser();
   const newNote = { content: content, userId: user.$id };
@@ -28,13 +27,10 @@ export async function addNote(content) {
 export async function fetchNote() {
   try {
     const user = await getLoggedInUser();
-    const response = await databases.listDocuments(
-      "noteApp",
-      "note",
-      [Query.equal("userId", user.$id)],
-    );
-    console.log(response.documents);
-    return;
+    const response = await databases.listDocuments("noteApp", "note", [
+      Query.equal("userId", user.$id),
+    ]);
+    return response.documents;
   } catch (error) {
     console.error("Failed to fetch notes:", error);
   }

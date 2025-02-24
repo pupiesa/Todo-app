@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "./pageComponents/Button";
 
 const Form = (props) => {
-  const [status, setStatus] = React.useState(true);
+  const [status, setStatus] = React.useState(false);
   const stateHandler = (e) => {
     e.preventDefault();
     setStatus(!status);

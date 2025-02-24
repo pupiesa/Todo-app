@@ -1,6 +1,6 @@
 import "./globals.css";
-import Nav from "./components/Nav";
-import { Footer } from "./components/Footer";
+import Nav from "./components/pageComponents/Nav";
+import { Footer } from "./components/pageComponents/Footer";
 
 export const metadata = {
   title: "Create Next App",

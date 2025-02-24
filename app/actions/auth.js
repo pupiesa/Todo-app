@@ -1,10 +1,10 @@
-import {  createAdminClient } from "@/app/utils/server/appwrite";
+"use server";
+import { createAdminClient, createSessionClient } from "@/app/utils/server/appwrite";
 import { ID } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signUpWithEmail(formData) {
-  "use server";
   const email = formData.get("email");
   const password = formData.get("password");
   const name = formData.get("name");
@@ -29,10 +29,7 @@ export async function signUpWithEmail(formData) {
   }
 }
 
-
 export async function loginWithEmail(formData) {
-  "use server";
-
   const email = formData.get("email");
   const password = formData.get("password");
 
@@ -51,4 +48,12 @@ export async function loginWithEmail(formData) {
   });
 
   redirect("/account");
+}
+export async function signOut() {
+  const { account } = await createSessionClient();
+
+  cookies().delete("my-custom-session");
+  await account.deleteSession("current");
+
+  redirect("/auth");
 }
