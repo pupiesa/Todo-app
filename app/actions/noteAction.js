@@ -4,7 +4,11 @@ import { getLoggedInUser } from "../utils/server/appwrite";
 
 export async function addNote(content) {
   const user = await getLoggedInUser();
-  const newNote = { content: content, userId: user.$id };
+  let newNote = {
+    content: content.header,
+    description: content.description,
+    userId: user.$id,
+  };
   try {
     const response = await databases.createDocument(
       "noteApp", // Database ID
@@ -16,6 +20,7 @@ export async function addNote(content) {
       $id: response.$id,
       $createdAt: response.$createdAt,
       content: response.content,
+      content: response.description,
       userID: response.userId,
     };
     return note;
@@ -33,5 +38,18 @@ export async function fetchNote() {
     return response.documents;
   } catch (error) {
     console.error("Failed to fetch notes:", error);
+  }
+}
+
+export async function deleteNote(documentId) {
+  try {
+    const response = await databases.deleteDocument(
+      "noteApp", // Database ID
+      "note", // Collection ID
+      documentId // documentId
+    );
+    return response;
+  } catch (error) {
+    console.log("Error deleting document: ", error);
   }
 }
