@@ -16,7 +16,7 @@ export default function NoteForm() {
   };
   return (
     <>
-      <form onSubmit={submitHandler} className="">
+      <form onSubmit={submitHandler} className="mb-10">
         <div className="w-full max-w-xs p-5 bg-slate-300 rounded-lg font-mono flex flex-col justify-center gap-y-2">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"

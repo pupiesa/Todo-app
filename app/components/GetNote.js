@@ -17,18 +17,17 @@ export default function GetNote(props) {
       console.log(response);
       console.log("payload :", response.payload);
       const changednote = {
-            content: response.payload.content,
-            description: response.payload.description,
-            $id: response.payload.$id,
-          }
+        content: response.payload.content,
+        description: response.payload.description,
+        $id: response.payload.$id,
+      };
       if (response.events[0].includes("create")) {
-        setNote((prevNotes) => [
-          ...prevNotes,
-          changednote,
-        ]);
+        setNote((prevNotes) => [...prevNotes, changednote]);
       }
       if (response.events[0].includes("delete")) {
-        setNote((prevNotes) => prevNotes.filter((note) => note.$id !== changednote.$id))
+        setNote((prevNotes) =>
+          prevNotes.filter((note) => note.$id !== changednote.$id)
+        );
       }
     });
     return () => unsubscribe();
@@ -39,20 +38,15 @@ export default function GetNote(props) {
         {note &&
           note.map((data) => {
             return (
-              <div key={data.$id} id={data.$id}>
-                <p
-                  onClick={() => {
-                    handleDelete(data.$id);
-                  }}
-                >
-                  {data.content}
-                </p>
-                {data.description && <p>{data.description}</p>}
-              </div>
+              <Note
+                key={data.$id}
+                id={data.$id}
+                data={data}
+                handleDelete={handleDelete}
+              />
             );
           })}
       </div>
-      <Note />
     </>
   );
 }
