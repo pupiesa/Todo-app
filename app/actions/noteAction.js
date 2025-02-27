@@ -1,6 +1,7 @@
 import { databases } from "@/app/appwrite";
 import { ID, Query } from "appwrite";
 import { getLoggedInUser } from "../utils/server/appwrite";
+import { trackSynchronousPlatformIOAccessInDev } from "next/dist/server/app-render/dynamic-rendering";
 
 export async function addNote(content) {
   const user = await getLoggedInUser();
@@ -51,5 +52,32 @@ export async function deleteNote(documentId) {
     return response;
   } catch (error) {
     console.log("Error deleting document: ", error);
+  }
+}
+
+export async function updateNote(documentId,content) {
+  try{
+    const response = await databases.updateDocument(
+      "noteApp",
+      "note",
+      documentId,
+      {content: content},
+    );
+    return response
+  }catch(error) {
+    console.log("fail to update note:",error);
+  }
+}
+export async function updateNoteDesc(documentId, description) {
+  try {
+    const response = await databases.updateDocument(
+      "noteApp",
+      "note",
+      documentId,
+      { description: description }
+    );
+    return response;
+  } catch (error) {
+    console.log("fail to update note:", error);
   }
 }

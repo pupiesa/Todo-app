@@ -13,8 +13,9 @@ export default async function Home() {
     <>
       <div className="flex flex-col justify-center items-center">
         <NoteForm />
-        <GetNote getnote={getnote} />
+        
       </div>
+      <GetNote getnote={getnote} />
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { deleteNote } from "../actions/noteAction";
+import { deleteNote, updateNote, updateNoteDesc } from "../actions/noteAction";
 import Note from "./pageComponents/Note";
 import { client } from "../appwrite";
 
@@ -10,6 +10,15 @@ export default function GetNote(props) {
   const handleDelete = async (noteId) => {
     await deleteNote(noteId);
   };
+  const handleUpdate = async (noteId, content) => {
+    await updateNote(noteId, content);
+    setNote((prevNotes) =>
+      prevNotes.map((note) =>
+        note.$id === noteId ? { ...note, content: content } : note
+      )
+    );
+  };
+
   useEffect(() => {
     const channel = "databases.noteApp.collections.note.documents";
 
@@ -32,9 +41,10 @@ export default function GetNote(props) {
     });
     return () => unsubscribe();
   }, []);
+
   return (
     <>
-      <div className="flex flex-col text-center">
+      <div className="grid grid-cols-6 justify-items-center text-center w-full">
         {note &&
           note.map((data) => {
             return (
@@ -43,6 +53,8 @@ export default function GetNote(props) {
                 id={data.$id}
                 data={data}
                 handleDelete={handleDelete}
+                handleUpdate={handleUpdate}
+                className="col-start-2 w-full"
               />
             );
           })}
