@@ -9,9 +9,17 @@ const Form = (props) => {
     e.preventDefault();
     setStatus(!status);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (status) {
+      props.signIn();
+    } else {
+      props.login();
+    }
+  };
   return (
     <StyledWrapper className="flex items-center justify-center">
-      <form className="form" action={status ? props.signIn : props.login}>
+      <form className="form" onSubmit={handleSubmit}>
         <Button status={status} stateHandler={stateHandler} />
         <div className="title">
           Welcome,
@@ -82,13 +90,7 @@ const Form = (props) => {
             </svg>
           </div>
         </div>
-        <button
-          className="button-confirm"
-          type="submit"
-          onSubmit={(e) => {
-            e.preventDefault;
-          }}
-        >
+        <button className="button-confirm" type="submit">
           {status ? "sign in" : "login"}
         </button>
       </form>
